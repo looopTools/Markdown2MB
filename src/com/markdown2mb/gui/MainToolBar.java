@@ -10,6 +10,7 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
 
 /**
  * Created with IntelliJ IDEA.
@@ -32,14 +33,19 @@ public class MainToolBar extends JToolBar {
 
         bc = new ButtonController();
         int width = 30, height = 30;
-        clearBtn = createJButton("./images/close.png", width, height);
+
+        URL imageUrl = MainToolBar.class.getResource("images/close.png");
+        System.out.println(imageUrl.toString());
+        clearBtn = createJButton(imageUrl, width, height);
         clearBtn.addActionListener(bc);
         clearBtn.setToolTipText("Clear");
 
-        convertBtn = createJButton("./images/convert.png", width, height);
+        imageUrl = MainToolBar.class.getResource("images/convert.png");
+        convertBtn = createJButton(imageUrl, width, height);
         convertBtn.addActionListener(bc);
 
-        copyBtn = createJButton("./images/copy.png", width, height);
+        imageUrl = MainToolBar.class.getResource("images/copy.png");
+        copyBtn = createJButton(imageUrl, width, height);
         copyBtn.addActionListener(bc);
 
         this.add(clearBtn);
@@ -51,8 +57,19 @@ public class MainToolBar extends JToolBar {
 
     }
 
-    private JButton createJButton(String pathToImageIcon, int width, int height){
-        return new JButton(NyxImageIconFunctions.createImageIcon(pathToImageIcon, width, height));
+    private JButton createJButton(URL pathToImageIcon, int width, int height){
+
+
+        ImageIcon iconImage = new ImageIcon(pathToImageIcon);
+
+        Image firstImage = iconImage.getImage();
+
+        Image secondImage = firstImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+
+
+        return new JButton(new ImageIcon(secondImage));
+
+        //return new JButton(NyxImageIconFunctions.createImageIcon(pathToImageIcon, width, height));
     }
 
     private class ButtonController implements ActionListener{
