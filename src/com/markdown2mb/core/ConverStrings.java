@@ -80,16 +80,56 @@ public class ConverStrings {
     }
 
     private String replaceLinks(String text){
-
         /*
             MARKDOWN: [This link](http://example.net/)
             MACBAY: [link=http://www.google.com]www.google.com[/link]
         */
-        String[] strings = text.split("\\s");
+        String[] strings = text.split("\n");
+        text = "";
         for(int i = 0; i < strings.length; i++){
-            if(strings[i].matches("\\[.*?\\]\\(.*?\\)")){
-                System.out.println("John");
+            //strings[i].contains("\\\\[.*?\\\\]\\\\(.*?\\\\)")
+            int index_of_start = -1, index_of_end = -1, index_of_s_link = -1, index_of_e_link = -1;
+
+            for(int j = 0; j < strings[i].length(); j++){
+
+                if (strings[i].charAt(j) == '['){
+                    System.out.println("#1");
+                    index_of_start = j;
+                }else if(strings[i].charAt(j) == ']' && index_of_start != -1){
+                    System.out.println("#2");
+                    index_of_end = j;
+                }else if(strings[i].charAt(j) == '(' && index_of_end == j - 1 &&  index_of_end != -1){
+                    System.out.println("#3");
+                    index_of_s_link = j;
+                }else if(strings[i].charAt(j) == '(' && strings[i].charAt(j-1) != ']'){
+                    System.out.println("#5");
+                    index_of_start = -1;
+                    index_of_end = -1;
+                }else if(strings[i].charAt(j) == ')' && index_of_s_link != -1){
+                    System.out.println("#4");
+                    index_of_e_link = j;
+                }
+
+                        /*
+                            MARKDOWN: [This link](http://example.net/)
+                            MACBAY: [link=http://www.google.com]www.google.com[/link]
+                        */
+                if(index_of_start != -1 && index_of_end != -1 && index_of_s_link != -1 && index_of_e_link != -1){
+                    String link_text = strings[i].substring(index_of_start+1, index_of_end);
+                    String link_url = strings[i].substring(index_of_s_link+1, index_of_e_link);
+                    String macbay_link = "[link=" + link_url + "](" + link_text + "[/link]";
+                    /*System.out.println(link_text);
+                    System.out.println(link_url);
+                    System.out.println(strings[i].substring(index_of_start, index_of_e_link +1));*/
+                    System.out.println(macbay_link);
+                    System.out.println(strings[i].substring(index_of_start, index_of_e_link +1));
+                    strings[i]= strings[i].replace(strings[i].substring(index_of_start, index_of_e_link +1), macbay_link);
+                    index_of_start = -1; index_of_end = -1; index_of_s_link = -1; index_of_e_link = -1;
+                }
             }
+            System.out.println(strings[i]);
+            text += strings[i] + "\n";
+
         }
 
 
