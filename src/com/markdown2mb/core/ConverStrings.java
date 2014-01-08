@@ -93,20 +93,15 @@ public class ConverStrings {
             for(int j = 0; j < strings[i].length(); j++){
 
                 if (strings[i].charAt(j) == '['){
-                    System.out.println("#1");
                     index_of_start = j;
                 }else if(strings[i].charAt(j) == ']' && index_of_start != -1){
-                    System.out.println("#2");
                     index_of_end = j;
                 }else if(strings[i].charAt(j) == '(' && index_of_end == j - 1 &&  index_of_end != -1){
-                    System.out.println("#3");
                     index_of_s_link = j;
                 }else if(strings[i].charAt(j) == '(' && strings[i].charAt(j-1) != ']'){
-                    System.out.println("#5");
                     index_of_start = -1;
                     index_of_end = -1;
                 }else if(strings[i].charAt(j) == ')' && index_of_s_link != -1){
-                    System.out.println("#4");
                     index_of_e_link = j;
                 }
 
@@ -118,16 +113,10 @@ public class ConverStrings {
                     String link_text = strings[i].substring(index_of_start+1, index_of_end);
                     String link_url = strings[i].substring(index_of_s_link+1, index_of_e_link);
                     String macbay_link = "[link=" + link_url + "]" + link_text + "[/link]";
-                    System.out.println("D: " + link_text);
-                    System.out.println("C: " + link_url);
-                    System.out.println(strings[i].substring(index_of_start, index_of_e_link +1));
-                    System.out.println(macbay_link);
-                    System.out.println(strings[i].substring(index_of_start, index_of_e_link +1));
                     strings[i]= strings[i].replace(strings[i].substring(index_of_start, index_of_e_link +1), macbay_link);
                     index_of_start = -1; index_of_end = -1; index_of_s_link = -1; index_of_e_link = -1;
                 }
             }
-            System.out.println(strings[i]);
             text += strings[i] + "\n";
 
         }
@@ -143,7 +132,6 @@ public class ConverStrings {
         for(int i = 0; i < strings.length; i++){
             if(strings[i].startsWith(">")){
                 strings[i] = "[citat]" + strings[i].substring(1, strings[i].length()) + "[/citat]";
-                System.out.println(strings[i]);
             }
             text += strings[i] + "\n";
         }
@@ -161,7 +149,6 @@ public class ConverStrings {
             //strings[i].startsWith("\\s\\s\\s\\s")
 
             if(strings[i].startsWith("    ")){
-                System.out.println("JJ: " + code_started);
                 if(code_started == true){
                     if(i == strings.length - 1 || !strings[i + 1].startsWith("    ") ){
                         strings[i] = strings[i] + "\n[/code]";
