@@ -117,10 +117,10 @@ public class ConverStrings {
                 if(index_of_start != -1 && index_of_end != -1 && index_of_s_link != -1 && index_of_e_link != -1){
                     String link_text = strings[i].substring(index_of_start+1, index_of_end);
                     String link_url = strings[i].substring(index_of_s_link+1, index_of_e_link);
-                    String macbay_link = "[link=" + link_url + "](" + link_text + "[/link]";
-                    /*System.out.println(link_text);
-                    System.out.println(link_url);
-                    System.out.println(strings[i].substring(index_of_start, index_of_e_link +1));*/
+                    String macbay_link = "[link=" + link_url + "]" + link_text + "[/link]";
+                    System.out.println("D: " + link_text);
+                    System.out.println("C: " + link_url);
+                    System.out.println(strings[i].substring(index_of_start, index_of_e_link +1));
                     System.out.println(macbay_link);
                     System.out.println(strings[i].substring(index_of_start, index_of_e_link +1));
                     strings[i]= strings[i].replace(strings[i].substring(index_of_start, index_of_e_link +1), macbay_link);
