@@ -7,7 +7,7 @@ package com.markdown2mb.core;
  * Time: 21.04
  * To change this template use File | Settings | File Templates.
  */
-public class ConverStrings {
+public class ConvertStrings {
 
     public String convertString(String text){
 

@@ -1,6 +1,6 @@
 package com.markdown2mb.gui;
 
-import com.markdown2mb.core.ConverStrings;
+import com.markdown2mb.core.ConvertStrings;
 import com.markdown2mb.service.ServiceGUI;
 import com.ngf.core.NyxImageIconFunctions;
 
@@ -81,7 +81,7 @@ public class MainToolBar extends JToolBar {
               ((JTextArea) ServiceGUI.getComponentByKey("MbTextArea")).setText("");
           }else if(e.getSource() == convertBtn){
               String text =  ((JTextArea) ServiceGUI.getComponentByKey("MdTextArea")).getText();
-              ((JTextArea) ServiceGUI.getComponentByKey("MbTextArea")).setText(new ConverStrings().convertString(text));
+              ((JTextArea) ServiceGUI.getComponentByKey("MbTextArea")).setText(new ConvertStrings().convertString(text));
           }else if(e.getSource() == copyBtn){
               String text = ((JTextArea) ServiceGUI.getComponentByKey("MbTextArea")).getText();
               StringSelection stringSelection = new StringSelection(text);
