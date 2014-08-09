@@ -15,6 +15,7 @@ import java.awt.*;
 public class TextFieldPanel extends JPanel {
     private JTextArea mdTxtArea, mbTexArea;
     private JSplitPane splitPane;
+    private JScrollPane scrollLeft, scrollRight;
 
     public TextFieldPanel(){
         this.setLayout(new BorderLayout());
@@ -31,7 +32,10 @@ public class TextFieldPanel extends JPanel {
         setUpMdTextArea();
         setUpMbTextArea();
 
-        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, mdTxtArea, mbTexArea);
+        scrollLeft = new JScrollPane(mdTxtArea);
+        scrollRight = new JScrollPane(mbTexArea);
+
+        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, scrollLeft, scrollRight);
         splitPane.setDividerLocation(400);
         this.add(splitPane);
     }

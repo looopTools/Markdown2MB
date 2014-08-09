@@ -138,38 +138,37 @@ public class ConverStrings {
         return text;
     }
 
-    //w white spaces
-
     private String replaceCode(String text){
+        boolean isCurrentLineInCodeBlock = false;
         String[] strings = text.split("\n");
         text = "";
-        boolean code_started = false;
 
         for(int i = 0; i < strings.length; i++){
-            //strings[i].startsWith("\\s\\s\\s\\s")
-
-            if(strings[i].startsWith("    ")){
-                if(code_started == true){
-                    if(i == strings.length - 1 || !strings[i + 1].startsWith("    ") ){
-                        strings[i] = strings[i] + "\n[/code]";
-                        code_started = false;
-                    }
+            if(strings[i].startsWith("    ") || strings[i].startsWith("\t")){
+                if(!isCurrentLineInCodeBlock){
+                    text += "[code]\n";
+                    System.out.println("i: " + i);
+                    isCurrentLineInCodeBlock = true;
                 }else{
-
-                    strings[i] = "[code]\n" + strings[i];
-                    code_started = true;
-                    if(i < strings.length - 1 && !strings[i + 1].startsWith("    ")){
-                        strings[i] = strings[i] + "\n[/code]";
-                        code_started = false;
-                    }
+                    System.out.println("j: " + i);
+                }
+            }else{
+                if(isCurrentLineInCodeBlock){
+                    //This means the previous line was last end codeblock
+                    text += "[/code]\n";
+                    isCurrentLineInCodeBlock = false;
                 }
             }
-
             text += strings[i] + "\n";
+            if (i == strings.length - 1 && isCurrentLineInCodeBlock){
+                text += "[/code]\n";
+            }
         }
 
         return text;
     }
+
+
 
 
 }
