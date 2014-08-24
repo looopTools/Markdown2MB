@@ -11,6 +11,7 @@ public class ConvertStrings {
 
     public String convertString(String text){
 
+        text = replaceImageLink(text);
         text = replaceLinks(text);
         text = replaceCite(text);
         text = replaceCode(text);
@@ -79,6 +80,57 @@ public class ConvertStrings {
         return text.replaceFirst(reg_ex, toReplaceWith);
     }
 
+    private String replaceImageLink(String text){
+        //[image=0898817895384140759723937#700x452]
+        //Markdown ![Alt text](/path/to/img.jpg)
+        System.out.println("here");
+        String[] strings = text.split("\n");
+        text = "";
+
+        for(int i = 0; i < strings.length; i++){
+            //strings[i].contains("\\\\[.*?\\\\]\\\\(.*?\\\\)")
+            int index_of_punmark = -1, index_of_start = -1, index_of_end = -1, index_of_s_link = -1, index_of_e_link = -1;
+
+            for(int j = 0; j < strings[i].length(); j++){
+
+                if(strings[i].charAt(j) == '!'){
+                    index_of_punmark = j;
+                }else if (strings[i].charAt(j) == '['){
+                    index_of_start = j;
+                }else if(strings[i].charAt(j) == ']' && index_of_start != -1){
+                    index_of_end = j;
+                }else if(strings[i].charAt(j) == '(' && index_of_end == j - 1 &&  index_of_end != -1){
+                    index_of_s_link = j;
+                }else if(strings[i].charAt(j) == '(' && strings[i].charAt(j-1) != ']'){
+                    index_of_start = -1;
+                    index_of_end = -1;
+                }else if(strings[i].charAt(j) == ')' && index_of_s_link != -1){
+                    index_of_e_link = j;
+                }
+
+                //[image=0898817895384140759723937#700x452]
+                //Markdown ![Alt text](/path/to/img.jpg)
+
+                if(index_of_punmark != -1 && index_of_start != -1 && index_of_end != -1 && index_of_s_link != -1 && index_of_e_link != -1){
+                    String link_text = strings[i].substring(index_of_start+1, index_of_end);
+                    String link_url = strings[i].substring(index_of_s_link+1, index_of_e_link);
+                    String macbay_link = "[image=" + link_url + "]";
+                    strings[i]= strings[i].replace(strings[i].substring(index_of_punmark, index_of_e_link +1), macbay_link);
+                    index_of_start = -1; index_of_end = -1; index_of_s_link = -1; index_of_e_link = -1;
+
+                }
+            }
+            System.out.println(strings[i]);
+            System.out.println(text);
+            text += strings[i] + "\n";
+            System.out.println(text);
+
+        }
+
+
+
+        return text;
+    }
     private String replaceLinks(String text){
         /*
             MARKDOWN: [This link](http://example.net/)
